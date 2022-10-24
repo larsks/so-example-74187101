@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  app2:
+    image: docker.io/nginx:mainline
+    networks:
+      - services
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.stripapp2.stripprefix.prefixes=/app2"
+      - "traefik.http.routers.app2.rule=PathPrefix(`/app2`)"
+      - "traefik.http.routers.app2.middlewares=stripapp2"
+    volumes:
+      - "./htdocs:/usr/share/nginx/html"
+
+
+
+networks:
+  services:
+    external: true
